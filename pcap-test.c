@@ -2,14 +2,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "structure.h"
-
-
+#include "utils.h"
 
 void usage() {
-	printf("syntax: pcap-test <interface>\n");
+	printf("How to use : ./pcap-test <interface>\n");
 	printf("sample: pcap-test wlan0\n");
 }
-
 typedef struct {
 	char* dev_;
 } Param;
@@ -55,13 +53,7 @@ int main(int argc, char* argv[]) {
 		}
 		printf("%u bytes captured\n", header->caplen);
 
-		struct ethernet_hdr *eth = (struct ethernet_hdr *)packet;
-		struct ipv4_hdr *ip = (struct ipv4_hdr *)(packet + sizeof(struct ethernet_hdr));
-		struct tcp_hdr *tcp = (struct tcp_hdr *)(packet + sizeof(struct ethernet_hdr) + ip->ip_len);
-
-		printf("ether type : %x\n", eth->ether_type);
-		printf("ip len : %x\n", ip->ip_len);
-		printf("src_port : %x\n", tcp->src_port);
+		parse_packet(packet);
 	}
 
 	pcap_close(pcap);
