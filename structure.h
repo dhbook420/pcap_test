@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <netinet/in.h>
 
 struct ethernet_hdr /*only for Ethernet II*/
 {
