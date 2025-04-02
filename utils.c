@@ -34,11 +34,10 @@ void parse_packet (const uint8_t* packet)
     printf("Source Port Number       : %d\n", ntohs(tcp->src_port));
     printf("Destinamtion Port number : %d\n", ntohs(tcp->dest_port));
     printf("============================================\n");
-    printf("\nHexamedical Data (20 bytes) :\n");
-    for (int i = 0; i < 20; i ++)
-    {
-        printf("%02x ", (uint8_t)*(data_ptr + i));
-    }
+
+    int data_len = ntohs(ip->tot_len) - ip_hdr_len - tcp_hdr_len;
+    print_data(data_ptr, data_len);
+    
     
     printf("\n\n\n");
 }
@@ -60,6 +59,18 @@ void print_ip(uint32_t ip_addr)
     printf("\n");
 }
 
+void print_data(uint8_t *data_ptr, int len)
+{
+    if (len > 20)
+        len = 20;
+    
+
+    printf("\nHexamedical Data (%d bytes) :\n", len);
+    for (int i = 0; i < len; i ++)
+    {
+        printf("%02x ", (uint8_t)*(data_ptr + i));
+    }
+}
 
 
 
